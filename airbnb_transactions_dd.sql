@@ -7,26 +7,10 @@ cast('Type' as varchar(500)) as "Field Name"
 union all
 
 select
-cast('Confirmation Code' as varchar(500)) as "Field Name"
-,cast('dimension' as varchar(500)) as "Field Type"
-,cast('Numeric identifier unique to a stay - this value is generated in transformation and not an Airbnb confirmation code' as varchar(500)) as Description
-,'Numeric' as "Data Type"
-
-union all
-
-select
 cast('Start Date' as varchar(500)) as "Field Name"
 ,'dimension' as "Field Type"
 ,cast('Start date of stay' as varchar(500)) as Description
 ,'Date' as "Data Type"
-
-union all
-
-select
-cast('Guest ID' as varchar(500)) as "Field Name"
-,cast('dimension' as varchar(500)) as "Field Type"
-,cast('Numeric identifier unique to a guest name/listing combination - this value is generated in transformation and not an Airbnb confirmation code' as varchar(500)) as Description
-,'Numeric' as "Data Type"
 
 union all
 
@@ -57,7 +41,7 @@ union all
 select
 cast('Length of Stay' as varchar(500)) as "Field Name"
 ,'measure' as "Field Type"
-,cast('Length of stay' as varchar(500)) as Description
+,cast('Length of stay (nights)' as varchar(500)) as Description
 ,'Numeric' as "Data Type"
 
 union all
@@ -111,17 +95,9 @@ cast('Referral Amount' as varchar(500)) as "Field Name"
 union all
 
 select
-cast('Cleaning Fee' as varchar(500)) as "Field Name"
-,'measure' as "Field Type"
-,cast('The cleaning fee charged to the guest' as varchar(500)) as Description
-,'Numeric' as "Data Type"
-
-union all
-
-select
 cast('Occupancy' as varchar(500)) as "Field Name"
 ,'Calculated Measure' as "Field Type"
-,cast('Days Occupied / Count of Days between parameters [Occupancy Start Date] and [Occupancy End Date]' as varchar(500)) as Description
+,cast('Calculated at the [Listing] level: Days Occupied / Count of Days between parameters [Occupancy Start Date] and [Occupancy End Date]' as varchar(500)) as Description
 ,'Numeric' as "Data Type"
 
 union all
@@ -163,14 +139,6 @@ select
 cast('Distinct Guests' as varchar(500)) as "Field Name"
 ,'Calculated Measure' as "Field Type"
 ,cast('Count of distinct [Guest ID]' as varchar(500)) as Description
-,'Numeric' as "Data Type"
-
-union all
-
-select
-cast('Nights Occupied' as varchar(500)) as "Field Name"
-,'Calculated Measure' as "Field Type"
-,cast('Count of nights occupied' as varchar(500)) as Description
 ,'Numeric' as "Data Type"
 
 union all
@@ -224,17 +192,9 @@ cast('Host Referral Bonuses' as varchar(500)) as "Field Name"
 union all
 
 select
-cast('Nights Available' as varchar(500)) as "Field Name"
-,'Calculated Measure' as "Field Type"
-,cast('Count of nights available' as varchar(500)) as Description
-,'Numeric' as "Data Type"
-
-union all
-
-select
 cast('Date Filter' as varchar(500)) as "Field Name"
 ,'Calculated Measure' as "Field Type"
-,cast('TRUE if the earlier or [Start Date] or [Payout Date]>= parameter [Occupancy Start Date] and the greater of [Payout Date] or [Start Date]>=[Occupancy End Date]; else FALSE; note that if [Start Date] is null like with a referral, it is disregarded. ' as varchar(500)) as Description
+,cast('TRUE if [Date]>= parameter [Occupancy Start Date] and [Date]>=[Occupancy End Date]; else FALSE.' as varchar(500)) as Description
 ,'Boolean' as "Data Type"
 
 union all
@@ -252,5 +212,59 @@ cast('Cleaning Fee %' as varchar(500)) as "Field Name"
 ,'Calculated Measure' as "Field Type"
 ,cast('sum([Cleaning Fee])/[Total Host Payout]' as varchar(500)) as Description
 ,'Numeric' as "Data Type"
-;
 
+union all
+
+select
+cast('New Guests' as varchar(500)) as "Field Name"
+,'Calculated Measure' as "Field Type"
+,cast('count distinct [Guest ID] if the visit is the first visit for that [Guest ID]' as varchar(500)) as Description
+,'Numeric' as "Data Type"
+
+union all
+
+select
+cast('Repeat Business %' as varchar(500)) as "Field Name"
+,'Calculated Measure' as "Field Type"
+,cast('[Repeat Stays]/[Distinct Stays]' as varchar(500)) as Description
+,'Numeric' as "Data Type"
+
+union all
+
+select
+cast('Repeat Stays' as varchar(500)) as "Field Name"
+,'Calculated Measure' as "Field Type"
+,cast('count distinct [Confirmation Code] if the visit is the 2nd+ visit for that [Guest ID]' as varchar(500)) as Description
+,'Numeric' as "Data Type"
+
+union all
+
+select
+cast('Confirmation Code' as varchar(500)) as "Field Name"
+,cast('dimension' as varchar(500)) as "Field Type"
+,cast('Numeric identifier unique to a stay - this value is generated in transformation and not an Airbnb confirmation code' as varchar(500)) as Description
+,'Numeric' as "Data Type"
+
+union all
+
+select
+cast('last_night_of_stay' as varchar(500)) as "Field Name"
+,'dimension' as "Field Type"
+,cast('Ending date of stay' as varchar(500)) as Description
+,'Date' as "Data Type"
+
+union all
+
+select
+cast('Nights Available' as varchar(500)) as "Field Name"
+,'Calculated Measure' as "Field Type"
+,cast('Count of nights available' as varchar(500)) as Description
+,'Numeric' as "Data Type"
+
+union all
+
+select
+cast('Check Out Date' as varchar(500)) as "Field Name"
+,'dimension' as "Field Type"
+,cast('Check Out Date' as varchar(500)) as Description
+,'Date' as "Data Type";
