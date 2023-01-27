@@ -51,6 +51,7 @@ with rn_pre as
     , min(a."Start Date") over (partition by a.Guest) as guest_first_visit_start_date
     , max(a.Date) over () as max_pay_out_date
     , a."index"
+    , a.file_created_on_airbnb
     from
     reservation_history a
     left join rn
@@ -158,6 +159,7 @@ end as guest_repeats_to_listing_bool
 end as guest_repeats_bool
 ,pre."Referral Amount"
 ,cd.Listing is not null as checkout_bool
+,pre.file_created_on_airbnb
 from
 pen
 left join pre
@@ -203,6 +205,7 @@ null as "Confirmation Code"
 ,null as guest_repeats_bool
 ,pre."Referral Amount"
 ,null as checkout_bool
+,pre.file_created_on_airbnb
 from
 pen
 inner join pre
