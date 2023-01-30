@@ -1,0 +1,2 @@
+* Why did I make this dashboard?
+    - I need to develop a public portfolio as I'm now a full-time analytics and automation consultant. I started working at Amazon in December 2020. In August 2022 I started freelancing on the side. In December 2022 I volunteered for Amazon's buyout program and am focusing 100% on freelancing. None of my work at Amazon is visible to the public, so I'm building a public portfolio.
