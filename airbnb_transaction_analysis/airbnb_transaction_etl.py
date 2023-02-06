@@ -13,7 +13,7 @@ import re
 try:
     arg1 = sys.argv[1]
 except IndexError:
-    arg1 = os.getcwd()
+    arg1 = os.getcwd()+'/'
 
 data_files = os.listdir(arg1) # looks in the directory provided as argument or last token in CLI call
 
