@@ -8,19 +8,14 @@ import re
 
 # 1. Read in data
 
-# to get the necessary data, 
-# a) navigate to https://www.airbnb.com/users/transaction_history and select 'Completed Payouts'
-# b) click 'Export CSVs' and select 'Download CSV file'
-# c) click 'Upcoming Payouts' next to 'Completed Payouts'
-# d) click 'Export CSVs' and select 'Download CSV file'
-# e) copy the full filepath of your folder where you downloaded the CSVs. You'll need it for the command line interface (CLI) call.
+# to get the necessary data, see this article: https://medium.com/@davidwmccandless/how-airbnb-hosts-can-analyze-their-listings-with-tableau-30fdbbe60bc9
 
-# mine is:
-# `python3 airbnb_transaction_etl.py "/Users/davidmccandless/Downloads/"`
-# you would replace that last token (where I have the filepath to the CSVs) with your own filepath
-# note that any CSV with a filename like so will be read in: `airbnb_*.csv`
+try:
+    arg1 = sys.argv[1]
+except IndexError:
+    arg1 = os.getcwd()
 
-data_files = os.listdir(sys.argv[1]) # looks in the directory provided as argument or last token in CLI call
+data_files = os.listdir(arg1) # looks in the directory provided as argument or last token in CLI call
 
 # giving credit where it's due for the little utility below to read multiple CSVs to one pandas dataframe
 # https://pandasninja.com/2019/04/how-to-read-lots-of-csv-files-easily-into-pandas/
@@ -29,7 +24,7 @@ def extract_files(filenames):
     matches = [m for m in map(regex.match, filenames) if m is not None]
 
     for match in matches:
-        fpath = sys.argv[1]+match.group(0) # details re: parsing CLI arguments from https://www.geeksforgeeks.org/command-line-arguments-in-python/
+        fpath = arg1+match.group(0) # details re: parsing CLI arguments from https://www.geeksforgeeks.org/command-line-arguments-in-python/
         ti_c = os.path.getctime(fpath) # get file creation epoch timestamp
         c_ti = datetime.datetime.fromtimestamp(ti_c) # convert epoch timestamp to easily legible timestamp
 
