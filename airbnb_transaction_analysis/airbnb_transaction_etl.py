@@ -51,11 +51,15 @@ sqlite_table = "reservation_history"
 # first we're going to create the table DDL
 df.head(0).copy().to_sql(sqlite_table, sqlite_connection, if_exists='replace')
 
-# now let's insert a load timestamp column
-engine.execute("alter table reservation_history add column this_row_load_ts text default current_timestamp;")
-
 # now let's insert our rows
 df.to_sql(sqlite_table, sqlite_connection, if_exists='append')
+
+from datetime import datetime, timezone
+
+dt = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+
+# now let's insert a load timestamp column
+engine.execute("alter table reservation_history add column this_row_load_ts text default {0};".format(dt))
 
 # 3. Load a dimensional date table to the database
 sqlite_table = "dim_date"
