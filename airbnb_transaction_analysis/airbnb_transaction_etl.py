@@ -59,7 +59,7 @@ from datetime import datetime, timezone, timedelta
 dt = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 
 # now let's insert a load timestamp column
-engine.execute("alter table reservation_history add column this_row_load_ts text default '{0}';".format(dt))
+sqlite_connection.execute("alter table reservation_history add column this_row_load_ts text default '{0}';".format(dt))
 
 # 3. Load a dimensional date table to the database
 sqlite_table = "dim_date"
