@@ -43,6 +43,11 @@ indexType = df[ (df['Type'] == 'Payout') ].index
 df.drop(indexType , inplace=True)
 
 # 2. Load data to SQLite database
+# delete SQLite database if exists already e.g. if you're running this iteratively
+fp = "save_pandas.db"
+if os.path.exists(fp):
+    os.remove(fp)
+
 engine = sqlalchemy.create_engine('sqlite:///save_pandas.db', echo=True)
 sqlite_connection = engine.connect()
 
@@ -60,7 +65,7 @@ dt = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 
 # Replace 'sqlite_connection' with your actual connection object
 sqlite_connection.execute(
-    sqlalchemy.text("alter table reservation_history add column this_row_load_ts text default :dt;").bind(dt=dt)
+    sqlalchemy.text(f"alter table reservation_history add column this_row_load_ts text default '{dt};'")
 )
 
 # 3. Load a dimensional date table to the database
